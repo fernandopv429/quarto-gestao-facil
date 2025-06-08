@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { Plus, Edit, Trash2, CreditCard, Calendar } from 'lucide-react';
+import { PaymentButton } from '@/components/PaymentButton';
 
 interface Cobranca {
   id: string;
@@ -29,7 +30,7 @@ interface Cobranca {
   observacoes?: string;
   created_at: string;
   updated_at: string;
-  inquilinos?: { nome: string };
+  inquilinos?: { nome: string; email: string };
   quartos?: { nome: string; imoveis?: { nome: string } };
 }
 
@@ -58,7 +59,7 @@ export const Cobrancas = () => {
         .from('cobrancas')
         .select(`
           *,
-          inquilinos (nome),
+          inquilinos (nome, email),
           quartos (
             nome,
             imoveis (nome)
@@ -191,6 +192,36 @@ export const Cobrancas = () => {
       toast.error('Erro ao excluir cobrança: ' + error.message);
     }
   });
+
+  const updateStatusMutation = useMutation({
+    mutationFn: async ({ id, status, dataPagamento }: { id: string; status: string; dataPagamento?: string }) => {
+      const { error } = await supabase
+        .from('cobrancas')
+        .update({
+          status: status,
+          data_pagamento: dataPagamento || null,
+        })
+        .eq('id', id);
+      
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cobrancas'] });
+      toast.success('Status da cobrança atualizado!');
+    },
+    onError: (error) => {
+      toast.error('Erro ao atualizar status: ' + error.message);
+    }
+  });
+
+  const handlePaymentStatusChange = (cobrancaId: string, newStatus: string) => {
+    const dataPagamento = newStatus === 'pago' ? new Date().toISOString().split('T')[0] : undefined;
+    updateStatusMutation.mutate({ 
+      id: cobrancaId, 
+      status: newStatus, 
+      dataPagamento 
+    });
+  };
 
   const resetForm = () => {
     setFormData({
@@ -495,6 +526,21 @@ export const Cobrancas = () => {
 
                 {cobranca.observacoes && (
                   <p className="text-sm text-gray-600">{cobranca.observacoes}</p>
+                )}
+
+                {cobranca.status !== 'pago' && cobranca.inquilinos && (
+                  <div className="pt-2 border-t">
+                    <PaymentButton
+                      cobrancaId={cobranca.id}
+                      valor={cobranca.valor}
+                      descricao={`Aluguel ${cobranca.mes_referencia} - ${cobranca.quartos?.nome}`}
+                      inquilino={{
+                        nome: cobranca.inquilinos.nome,
+                        email: cobranca.inquilinos.email
+                      }}
+                      onPaymentStatusChange={(status) => handlePaymentStatusChange(cobranca.id, status)}
+                    />
+                  </div>
                 )}
               </div>
             </CardContent>
