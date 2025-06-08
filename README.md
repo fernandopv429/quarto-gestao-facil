@@ -1,73 +1,236 @@
-# Welcome to your Lovable project
 
-## Project info
+# RentControl - Sistema de Controle de Aluguel de Quartos
 
-**URL**: https://lovable.dev/projects/26e9da40-ca04-4795-b258-1b69baadf8d3
+## 📋 Sobre o Projeto
 
-## How can I edit this code?
+O RentControl é um sistema completo para gerenciamento de aluguel de quartos, desenvolvido para proprietários que precisam organizar e controlar múltiplos imóveis, quartos, inquilinos e cobranças de forma eficiente.
 
-There are several ways of editing your application.
+## 🚀 Funcionalidades Implementadas
 
-**Use Lovable**
+### ✅ Versão Atual (1.0)
+- **Dashboard Completo** com métricas financeiras e gráficos
+- **Estrutura de Dados** completa com TypeScript
+- **Layout Responsivo** com Sidebar navegável
+- **Sistema de Contexto** para gerenciamento de estado
+- **Dados Mockados** para demonstração
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/26e9da40-ca04-4795-b258-1b69baadf8d3) and start prompting.
+### 🔄 Próximas Implementações
 
-Changes made via Lovable will be committed automatically to this repo.
+#### 1. **Gestão de Imóveis**
+- Cadastro completo de imóveis
+- Upload de fotos
+- Edição e remoção
+- Associação com quartos
 
-**Use your preferred IDE**
+#### 2. **Gestão de Quartos**
+- Cadastro de quartos por imóvel
+- Status: disponível/ocupado/manutenção
+- Configurações (mobiliado, suíte, etc.)
+- Controle de valores
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+#### 3. **Gestão de Inquilinos**
+- Cadastro completo com documentos
+- Histórico de aluguéis
+- Dados de contato
+- Associação com quartos
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+#### 4. **Sistema de Cobranças**
+- Geração automática de cobranças mensais
+- Integração com PIX (Gerencianet/MercadoPago)
+- Upload de comprovantes
+- Controle de status (pago/pendente/atrasado)
+- Sistema de desconto por pontualidade
 
-Follow these steps:
+#### 5. **Controle de Despesas**
+- Categorização de despesas por tipo
+- Associação com imóveis específicos
+- Upload de comprovantes
+- Relatórios mensais
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+#### 6. **Sistema de Notificações**
+- Avisos de vencimento via WhatsApp
+- Confirmação de recebimento
+- Lembretes personalizáveis
+- Integração com Twilio/Z-API
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+#### 7. **Relatórios e Analytics**
+- Relatórios financeiros mensais/anuais
+- Exportação em PDF
+- Gráficos de performance
+- Análise de inadimplência
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 🛠️ Tecnologias Utilizadas
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+### Frontend
+- **React 18** com TypeScript
+- **Tailwind CSS** para estilização
+- **Shadcn/UI** para componentes
+- **Recharts** para gráficos
+- **React Router** para navegação
+- **Lucide React** para ícones
+
+### Gerenciamento de Estado
+- **React Context API**
+- **React Hooks** (useState, useEffect, useContext)
+
+### Futuras Integrações
+- **Supabase** para backend e banco de dados
+- **Gerencianet/MercadoPago** para PIX
+- **Twilio/Z-API** para WhatsApp
+- **jsPDF** para relatórios PDF
+
+## 📊 Estrutura de Dados
+
+### Principais Entidades
+
+```typescript
+interface Imovel {
+  id: string;
+  nome: string;
+  endereco: Endereco;
+  foto?: string;
+  quartos: Quarto[];
+}
+
+interface Quarto {
+  id: string;
+  imovelId: string;
+  nome: string;
+  valorMensal: number;
+  status: 'disponivel' | 'ocupado' | 'manutencao';
+  mobiliado: boolean;
+  suite: boolean;
+}
+
+interface Inquilino {
+  id: string;
+  nome: string;
+  cpf: string;
+  telefone: string;
+  email: string;
+  quartoId: string;
+  dataEntrada: Date;
+  status: 'ativo' | 'inativo';
+}
+
+interface Cobranca {
+  id: string;
+  inquilinoId: string;
+  quartoId: string;
+  valor: number;
+  mesReferencia: string;
+  dataVencimento: Date;
+  status: 'pendente' | 'pago' | 'atrasado';
+  metodoPagamento?: string;
+}
 ```
 
-**Edit a file directly in GitHub**
+## 🎨 Design System
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Cores Principais
+- **Primary**: Azul (#0ea5e9)
+- **Success**: Verde (#22c55e) para receitas
+- **Warning**: Amarelo (#f59e0b) para alertas
+- **Danger**: Vermelho (#ef4444) para despesas
 
-**Use GitHub Codespaces**
+### Componentes
+- Layout responsivo com sidebar
+- Cards com hover effects
+- Gradientes e animações
+- Badges para status
+- Progress bars para métricas
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 📱 Responsividade
 
-## What technologies are used for this project?
+O sistema é totalmente responsivo, funcionando em:
+- Desktop (1200px+)
+- Tablet (768px - 1199px)
+- Mobile (320px - 767px)
 
-This project is built with:
+## 🔄 Fluxo de Trabalho
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### 1. Dashboard
+- Visão geral das métricas
+- Gráficos de receita vs despesas
+- Alertas de vencimentos
+- Status de ocupação
 
-## How can I deploy this project?
+### 2. Gestão
+- Cadastro de imóveis e quartos
+- Registro de inquilinos
+- Criação de cobranças
+- Controle de despesas
 
-Simply open [Lovable](https://lovable.dev/projects/26e9da40-ca04-4795-b258-1b69baadf8d3) and click on Share -> Publish.
+### 3. Financeiro
+- Acompanhamento de pagamentos
+- Geração de PIX
+- Controle de inadimplência
+- Relatórios financeiros
 
-## Can I connect a custom domain to my Lovable project?
+### 4. Comunicação
+- Notificações automáticas
+- Lembretes de vencimento
+- Confirmações de pagamento
 
-Yes, you can!
+## 🚀 Como Executar
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```bash
+# Instalar dependências
+npm install
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+# Executar em desenvolvimento
+npm run dev
+
+# Build para produção
+npm run build
+```
+
+## 📋 Próximos Passos
+
+1. **Implementar páginas de CRUD** para cada entidade
+2. **Integrar com Supabase** para persistência de dados
+3. **Adicionar sistema de autenticação**
+4. **Implementar integrações de pagamento PIX**
+5. **Adicionar sistema de notificações WhatsApp**
+6. **Criar relatórios em PDF**
+7. **Implementar upload de arquivos**
+8. **Adicionar testes unitários**
+
+## 📞 Integrações Planejadas
+
+### PIX (Gerencianet)
+```javascript
+// Exemplo de integração PIX
+const criarCobrancaPix = async (valor, descricao) => {
+  const cobranca = await gerencianet.pixCreateCharge({
+    calendario: { expiracao: 86400 },
+    valor: { original: valor.toFixed(2) },
+    chave: 'sua-chave-pix',
+    solicitacaoPagador: descricao
+  });
+  return cobranca;
+};
+```
+
+### WhatsApp (Z-API)
+```javascript
+// Exemplo de envio WhatsApp
+const enviarNotificacao = async (telefone, mensagem) => {
+  await fetch('https://api.z-api.io/instances/SUA_INSTANCIA/token/SEU_TOKEN/send-text', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      phone: telefone,
+      message: mensagem
+    })
+  });
+};
+```
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
+
+---
+
+**RentControl** - Transformando a gestão de aluguéis em uma experiência simples e eficiente! 🏠✨
