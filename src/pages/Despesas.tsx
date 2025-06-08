@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -32,7 +31,7 @@ export const Despesas = () => {
   const [editingDespesa, setEditingDespesa] = useState<Despesa | null>(null);
   const [formData, setFormData] = useState({
     imovel_id: '',
-    tipo: 'outros' as const,
+    tipo: 'outros' as 'agua' | 'luz' | 'gas' | 'internet' | 'manutencao' | 'limpeza' | 'outros',
     descricao: '',
     valor: '',
     data: '',
@@ -253,7 +252,7 @@ export const Despesas = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="tipo">Tipo</Label>
-                  <Select value={formData.tipo} onValueChange={(value: any) => setFormData(prev => ({ ...prev, tipo: value }))}>
+                  <Select value={formData.tipo} onValueChange={(value: 'agua' | 'luz' | 'gas' | 'internet' | 'manutencao' | 'limpeza' | 'outros') => setFormData(prev => ({ ...prev, tipo: value }))}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>

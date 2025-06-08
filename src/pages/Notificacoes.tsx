@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -30,10 +29,10 @@ export const Notificacoes = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingNotificacao, setEditingNotificacao] = useState<Notificacao | null>(null);
   const [formData, setFormData] = useState({
-    tipo: 'vencimento' as const,
+    tipo: 'vencimento' as 'vencimento' | 'pagamento_confirmado' | 'pagamento_atrasado',
     destinatario: '',
     mensagem: '',
-    status: 'pendente' as const,
+    status: 'pendente' as 'pendente' | 'enviado' | 'erro',
     cobranca_id: '',
     inquilino_id: ''
   });
@@ -270,7 +269,7 @@ export const Notificacoes = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="tipo">Tipo</Label>
-                  <Select value={formData.tipo} onValueChange={(value: any) => setFormData(prev => ({ ...prev, tipo: value }))}>
+                  <Select value={formData.tipo} onValueChange={(value: 'vencimento' | 'pagamento_confirmado' | 'pagamento_atrasado') => setFormData(prev => ({ ...prev, tipo: value }))}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -283,7 +282,7 @@ export const Notificacoes = () => {
                 </div>
                 <div>
                   <Label htmlFor="status">Status</Label>
-                  <Select value={formData.status} onValueChange={(value: any) => setFormData(prev => ({ ...prev, status: value }))}>
+                  <Select value={formData.status} onValueChange={(value: 'pendente' | 'enviado' | 'erro') => setFormData(prev => ({ ...prev, status: value }))}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>

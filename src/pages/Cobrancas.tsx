@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -45,7 +44,7 @@ export const Cobrancas = () => {
     mes_referencia: '',
     data_vencimento: '',
     data_pagamento: '',
-    status: 'pendente' as const,
+    status: 'pendente' as 'pendente' | 'pago' | 'atrasado' | 'cancelado',
     metodo_pagamento: '',
     observacoes: ''
   });
@@ -371,7 +370,7 @@ export const Cobrancas = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="status">Status</Label>
-                  <Select value={formData.status} onValueChange={(value: any) => setFormData(prev => ({ ...prev, status: value }))}>
+                  <Select value={formData.status} onValueChange={(value: 'pendente' | 'pago' | 'atrasado' | 'cancelado') => setFormData(prev => ({ ...prev, status: value }))}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
