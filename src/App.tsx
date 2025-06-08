@@ -7,6 +7,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { RentalProvider } from "./contexts/RentalContext";
 import { Layout } from "./components/Layout";
 import { Dashboard } from "./pages/Dashboard";
+import { Imoveis } from "./pages/Imoveis";
+import { Quartos } from "./pages/Quartos";
+import { Inquilinos } from "./pages/Inquilinos";
+import { Cobrancas } from "./pages/Cobrancas";
+import { Despesas } from "./pages/Despesas";
+import { Notificacoes } from "./pages/Notificacoes";
+import { Relatorios } from "./pages/Relatorios";
+import { Configuracoes } from "./pages/Configuracoes";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,14 +29,14 @@ const App = () => (
           <Layout>
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="/imoveis" element={<div>Página de Imóveis em desenvolvimento</div>} />
-              <Route path="/quartos" element={<div>Página de Quartos em desenvolvimento</div>} />
-              <Route path="/inquilinos" element={<div>Página de Inquilinos em desenvolvimento</div>} />
-              <Route path="/cobrancas" element={<div>Página de Cobranças em desenvolvimento</div>} />
-              <Route path="/despesas" element={<div>Página de Despesas em desenvolvimento</div>} />
-              <Route path="/notificacoes" element={<div>Página de Notificações em desenvolvimento</div>} />
-              <Route path="/relatorios" element={<div>Página de Relatórios em desenvolvimento</div>} />
-              <Route path="/configuracoes" element={<div>Página de Configurações em desenvolvimento</div>} />
+              <Route path="/imoveis" element={<Imoveis />} />
+              <Route path="/quartos" element={<Quartos />} />
+              <Route path="/inquilinos" element={<Inquilinos />} />
+              <Route path="/cobrancas" element={<Cobrancas />} />
+              <Route path="/despesas" element={<Despesas />} />
+              <Route path="/notificacoes" element={<Notificacoes />} />
+              <Route path="/relatorios" element={<Relatorios />} />
+              <Route path="/configuracoes" element={<Configuracoes />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

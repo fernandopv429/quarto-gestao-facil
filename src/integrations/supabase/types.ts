@@ -9,7 +9,306 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      cobrancas: {
+        Row: {
+          comprovante_pagamento: string | null
+          created_at: string
+          data_pagamento: string | null
+          data_vencimento: string
+          desconto: number | null
+          id: string
+          inquilino_id: string
+          mes_referencia: string
+          metodo_pagamento: string | null
+          observacoes: string | null
+          pix_id: string | null
+          quarto_id: string
+          status: string
+          updated_at: string
+          valor: number
+          valor_original: number
+        }
+        Insert: {
+          comprovante_pagamento?: string | null
+          created_at?: string
+          data_pagamento?: string | null
+          data_vencimento: string
+          desconto?: number | null
+          id?: string
+          inquilino_id: string
+          mes_referencia: string
+          metodo_pagamento?: string | null
+          observacoes?: string | null
+          pix_id?: string | null
+          quarto_id: string
+          status: string
+          updated_at?: string
+          valor: number
+          valor_original: number
+        }
+        Update: {
+          comprovante_pagamento?: string | null
+          created_at?: string
+          data_pagamento?: string | null
+          data_vencimento?: string
+          desconto?: number | null
+          id?: string
+          inquilino_id?: string
+          mes_referencia?: string
+          metodo_pagamento?: string | null
+          observacoes?: string | null
+          pix_id?: string | null
+          quarto_id?: string
+          status?: string
+          updated_at?: string
+          valor?: number
+          valor_original?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cobrancas_inquilino_id_fkey"
+            columns: ["inquilino_id"]
+            isOneToOne: false
+            referencedRelation: "inquilinos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cobrancas_quarto_id_fkey"
+            columns: ["quarto_id"]
+            isOneToOne: false
+            referencedRelation: "quartos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      despesas: {
+        Row: {
+          comprovante: string | null
+          created_at: string
+          data: string
+          descricao: string
+          id: string
+          imovel_id: string
+          observacoes: string | null
+          tipo: string
+          updated_at: string
+          valor: number
+        }
+        Insert: {
+          comprovante?: string | null
+          created_at?: string
+          data: string
+          descricao: string
+          id?: string
+          imovel_id: string
+          observacoes?: string | null
+          tipo: string
+          updated_at?: string
+          valor: number
+        }
+        Update: {
+          comprovante?: string | null
+          created_at?: string
+          data?: string
+          descricao?: string
+          id?: string
+          imovel_id?: string
+          observacoes?: string | null
+          tipo?: string
+          updated_at?: string
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "despesas_imovel_id_fkey"
+            columns: ["imovel_id"]
+            isOneToOne: false
+            referencedRelation: "imoveis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      imoveis: {
+        Row: {
+          created_at: string
+          endereco: Json
+          foto: string | null
+          id: string
+          nome: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          endereco: Json
+          foto?: string | null
+          id?: string
+          nome: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          endereco?: Json
+          foto?: string | null
+          id?: string
+          nome?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      inquilinos: {
+        Row: {
+          cpf: string
+          created_at: string
+          data_entrada: string
+          data_saida: string | null
+          email: string
+          id: string
+          nome: string
+          observacoes: string | null
+          quarto_id: string | null
+          rg: string
+          status: string
+          telefone: string
+          updated_at: string
+        }
+        Insert: {
+          cpf: string
+          created_at?: string
+          data_entrada: string
+          data_saida?: string | null
+          email: string
+          id?: string
+          nome: string
+          observacoes?: string | null
+          quarto_id?: string | null
+          rg: string
+          status: string
+          telefone: string
+          updated_at?: string
+        }
+        Update: {
+          cpf?: string
+          created_at?: string
+          data_entrada?: string
+          data_saida?: string | null
+          email?: string
+          id?: string
+          nome?: string
+          observacoes?: string | null
+          quarto_id?: string | null
+          rg?: string
+          status?: string
+          telefone?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inquilinos_quarto_id_fkey"
+            columns: ["quarto_id"]
+            isOneToOne: false
+            referencedRelation: "quartos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notificacoes: {
+        Row: {
+          cobranca_id: string | null
+          data_envio: string
+          destinatario: string
+          id: string
+          inquilino_id: string | null
+          mensagem: string
+          status: string
+          tipo: string
+        }
+        Insert: {
+          cobranca_id?: string | null
+          data_envio?: string
+          destinatario: string
+          id?: string
+          inquilino_id?: string | null
+          mensagem: string
+          status: string
+          tipo: string
+        }
+        Update: {
+          cobranca_id?: string | null
+          data_envio?: string
+          destinatario?: string
+          id?: string
+          inquilino_id?: string | null
+          mensagem?: string
+          status?: string
+          tipo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notificacoes_cobranca_id_fkey"
+            columns: ["cobranca_id"]
+            isOneToOne: false
+            referencedRelation: "cobrancas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notificacoes_inquilino_id_fkey"
+            columns: ["inquilino_id"]
+            isOneToOne: false
+            referencedRelation: "inquilinos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quartos: {
+        Row: {
+          created_at: string
+          id: string
+          imovel_id: string
+          inquilino_atual: string | null
+          mobiliado: boolean | null
+          nome: string
+          observacoes: string | null
+          status: string
+          suite: boolean | null
+          updated_at: string
+          valor_mensal: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          imovel_id: string
+          inquilino_atual?: string | null
+          mobiliado?: boolean | null
+          nome: string
+          observacoes?: string | null
+          status: string
+          suite?: boolean | null
+          updated_at?: string
+          valor_mensal: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          imovel_id?: string
+          inquilino_atual?: string | null
+          mobiliado?: boolean | null
+          nome?: string
+          observacoes?: string | null
+          status?: string
+          suite?: boolean | null
+          updated_at?: string
+          valor_mensal?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quartos_imovel_id_fkey"
+            columns: ["imovel_id"]
+            isOneToOne: false
+            referencedRelation: "imoveis"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
