@@ -15,7 +15,8 @@ import {
   Calendar,
   Plus,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  BarChart3
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
