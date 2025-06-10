@@ -6,12 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from 'sonner';
 import { Plus, Edit, Trash2, MapPin } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
-interface Imovel {
+interface ImovelLocal {
   id: string;
   nome: string;
   endereco: {
@@ -23,13 +23,15 @@ interface Imovel {
     estado: string;
   };
   foto?: string;
+  organization_id?: string;
   created_at: string;
   updated_at: string;
 }
 
 export const Imoveis = () => {
+  const { profile } = useAuth();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingImovel, setEditingImovel] = useState<Imovel | null>(null);
+  const [editingImovel, setEditingImovel] = useState<ImovelLocal | null>(null);
   const [formData, setFormData] = useState({
     nome: '',
     rua: '',
@@ -52,7 +54,19 @@ export const Imoveis = () => {
         .order('created_at', { ascending: false });
       
       if (error) throw error;
-      return data as Imovel[];
+      
+      // Converter os dados do Supabase para o formato local
+      return data.map(item => ({
+        ...item,
+        endereco: item.endereco as {
+          rua: string;
+          numero: string;
+          bairro: string;
+          cidade: string;
+          cep: string;
+          estado: string;
+        }
+      })) as ImovelLocal[];
     }
   });
 
@@ -70,7 +84,8 @@ export const Imoveis = () => {
             cep: data.cep,
             estado: data.estado
           },
-          foto: data.foto || null
+          foto: data.foto || null,
+          organization_id: profile?.organization_id
         });
       
       if (error) throw error;
@@ -158,7 +173,7 @@ export const Imoveis = () => {
     }
   };
 
-  const handleEdit = (imovel: Imovel) => {
+  const handleEdit = (imovel: ImovelLocal) => {
     setEditingImovel(imovel);
     setFormData({
       nome: imovel.nome,
