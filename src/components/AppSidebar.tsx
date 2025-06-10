@@ -10,7 +10,8 @@ import {
   Receipt,
   MessageSquare,
   BarChart3,
-  Settings
+  Settings,
+  Building
 } from 'lucide-react';
 import {
   Sidebar,
@@ -24,57 +25,67 @@ import {
   SidebarHeader,
   SidebarFooter
 } from "@/components/ui/sidebar";
-
-const menuItems = [
-  {
-    title: "Dashboard",
-    url: "/",
-    icon: Home,
-  },
-  {
-    title: "Imóveis",
-    url: "/imoveis",
-    icon: Building2,
-  },
-  {
-    title: "Quartos",
-    url: "/quartos",
-    icon: Bed,
-  },
-  {
-    title: "Inquilinos",
-    url: "/inquilinos",
-    icon: Users,
-  },
-  {
-    title: "Cobranças",
-    url: "/cobrancas",
-    icon: CreditCard,
-  },
-  {
-    title: "Despesas",
-    url: "/despesas",
-    icon: Receipt,
-  },
-  {
-    title: "Notificações",
-    url: "/notificacoes",
-    icon: MessageSquare,
-  },
-  {
-    title: "Relatórios",
-    url: "/relatorios",
-    icon: BarChart3,
-  },
-  {
-    title: "Configurações",
-    url: "/configuracoes",
-    icon: Settings,
-  },
-];
+import { useAuth } from '@/contexts/AuthContext';
 
 export function AppSidebar() {
   const location = useLocation();
+  const { isAdmin } = useAuth();
+
+  const menuItems = [
+    {
+      title: "Dashboard",
+      url: "/",
+      icon: Home,
+    },
+    {
+      title: "Imóveis",
+      url: "/imoveis",
+      icon: Building2,
+    },
+    {
+      title: "Quartos",
+      url: "/quartos",
+      icon: Bed,
+    },
+    {
+      title: "Inquilinos",
+      url: "/inquilinos",
+      icon: Users,
+    },
+    {
+      title: "Cobranças",
+      url: "/cobrancas",
+      icon: CreditCard,
+    },
+    {
+      title: "Despesas",
+      url: "/despesas",
+      icon: Receipt,
+    },
+    {
+      title: "Notificações",
+      url: "/notificacoes",
+      icon: MessageSquare,
+    },
+    {
+      title: "Relatórios",
+      url: "/relatorios",
+      icon: BarChart3,
+    },
+    {
+      title: "Configurações",
+      url: "/configuracoes",
+      icon: Settings,
+    },
+  ];
+
+  const adminItems = [
+    {
+      title: "Organizações",
+      url: "/organizacoes",
+      icon: Building,
+    },
+  ];
 
   return (
     <Sidebar>
@@ -111,6 +122,29 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {isAdmin && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Administração</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {adminItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton 
+                      asChild 
+                      isActive={location.pathname === item.url}
+                    >
+                      <Link to={item.url} className="flex items-center gap-3">
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
       
       <SidebarFooter className="border-t px-6 py-4">
