@@ -21,7 +21,6 @@ export type Database = {
           mes_referencia: string
           metodo_pagamento: string | null
           observacoes: string | null
-          organization_id: string | null
           pix_id: string | null
           quarto_id: string
           status: string
@@ -40,7 +39,6 @@ export type Database = {
           mes_referencia: string
           metodo_pagamento?: string | null
           observacoes?: string | null
-          organization_id?: string | null
           pix_id?: string | null
           quarto_id: string
           status: string
@@ -59,7 +57,6 @@ export type Database = {
           mes_referencia?: string
           metodo_pagamento?: string | null
           observacoes?: string | null
-          organization_id?: string | null
           pix_id?: string | null
           quarto_id?: string
           status?: string
@@ -73,13 +70,6 @@ export type Database = {
             columns: ["inquilino_id"]
             isOneToOne: false
             referencedRelation: "inquilinos"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "cobrancas_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
           {
@@ -100,7 +90,6 @@ export type Database = {
           id: string
           imovel_id: string
           observacoes: string | null
-          organization_id: string | null
           tipo: string
           updated_at: string
           valor: number
@@ -113,7 +102,6 @@ export type Database = {
           id?: string
           imovel_id: string
           observacoes?: string | null
-          organization_id?: string | null
           tipo: string
           updated_at?: string
           valor: number
@@ -126,7 +114,6 @@ export type Database = {
           id?: string
           imovel_id?: string
           observacoes?: string | null
-          organization_id?: string | null
           tipo?: string
           updated_at?: string
           valor?: number
@@ -139,13 +126,6 @@ export type Database = {
             referencedRelation: "imoveis"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "despesas_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "organizations"
-            referencedColumns: ["id"]
-          },
         ]
       }
       imoveis: {
@@ -155,7 +135,6 @@ export type Database = {
           foto: string | null
           id: string
           nome: string
-          organization_id: string | null
           updated_at: string
         }
         Insert: {
@@ -164,7 +143,6 @@ export type Database = {
           foto?: string | null
           id?: string
           nome: string
-          organization_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -173,18 +151,9 @@ export type Database = {
           foto?: string | null
           id?: string
           nome?: string
-          organization_id?: string | null
           updated_at?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "imoveis_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "organizations"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       inquilinos: {
         Row: {
@@ -196,7 +165,6 @@ export type Database = {
           id: string
           nome: string
           observacoes: string | null
-          organization_id: string | null
           quarto_id: string | null
           rg: string
           status: string
@@ -212,7 +180,6 @@ export type Database = {
           id?: string
           nome: string
           observacoes?: string | null
-          organization_id?: string | null
           quarto_id?: string | null
           rg: string
           status: string
@@ -228,7 +195,6 @@ export type Database = {
           id?: string
           nome?: string
           observacoes?: string | null
-          organization_id?: string | null
           quarto_id?: string | null
           rg?: string
           status?: string
@@ -236,13 +202,6 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
-          {
-            foreignKeyName: "inquilinos_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "organizations"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "inquilinos_quarto_id_fkey"
             columns: ["quarto_id"]
@@ -260,7 +219,6 @@ export type Database = {
           id: string
           inquilino_id: string | null
           mensagem: string
-          organization_id: string | null
           status: string
           tipo: string
         }
@@ -271,7 +229,6 @@ export type Database = {
           id?: string
           inquilino_id?: string | null
           mensagem: string
-          organization_id?: string | null
           status: string
           tipo: string
         }
@@ -282,7 +239,6 @@ export type Database = {
           id?: string
           inquilino_id?: string | null
           mensagem?: string
-          organization_id?: string | null
           status?: string
           tipo?: string
         }
@@ -301,81 +257,6 @@ export type Database = {
             referencedRelation: "inquilinos"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "notificacoes_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "organizations"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      organizations: {
-        Row: {
-          created_at: string | null
-          email: string
-          id: string
-          name: string
-          plan: string
-          status: string
-          updated_at: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          email: string
-          id?: string
-          name: string
-          plan?: string
-          status?: string
-          updated_at?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          email?: string
-          id?: string
-          name?: string
-          plan?: string
-          status?: string
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      profiles: {
-        Row: {
-          created_at: string | null
-          email: string
-          id: string
-          name: string
-          organization_id: string | null
-          updated_at: string | null
-          user_type: Database["public"]["Enums"]["user_type"]
-        }
-        Insert: {
-          created_at?: string | null
-          email: string
-          id: string
-          name: string
-          organization_id?: string | null
-          updated_at?: string | null
-          user_type?: Database["public"]["Enums"]["user_type"]
-        }
-        Update: {
-          created_at?: string | null
-          email?: string
-          id?: string
-          name?: string
-          organization_id?: string | null
-          updated_at?: string | null
-          user_type?: Database["public"]["Enums"]["user_type"]
-        }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "organizations"
-            referencedColumns: ["id"]
-          },
         ]
       }
       quartos: {
@@ -387,7 +268,6 @@ export type Database = {
           mobiliado: boolean | null
           nome: string
           observacoes: string | null
-          organization_id: string | null
           status: string
           suite: boolean | null
           updated_at: string
@@ -401,7 +281,6 @@ export type Database = {
           mobiliado?: boolean | null
           nome: string
           observacoes?: string | null
-          organization_id?: string | null
           status: string
           suite?: boolean | null
           updated_at?: string
@@ -415,7 +294,6 @@ export type Database = {
           mobiliado?: boolean | null
           nome?: string
           observacoes?: string | null
-          organization_id?: string | null
           status?: string
           suite?: boolean | null
           updated_at?: string
@@ -429,13 +307,6 @@ export type Database = {
             referencedRelation: "imoveis"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "quartos_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "organizations"
-            referencedColumns: ["id"]
-          },
         ]
       }
     }
@@ -446,7 +317,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      user_type: "admin" | "tenant" | "user"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -561,8 +432,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      user_type: ["admin", "tenant", "user"],
-    },
+    Enums: {},
   },
 } as const
